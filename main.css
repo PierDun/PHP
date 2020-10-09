@@ -1,0 +1,119 @@
+body{
+  background-size: 100%;
+  background: url(background.jpg) fixed;
+  margin: 0;
+}
+
+div{
+  margin-bottom: 5px;
+}
+
+input:invalid {
+    border: 2px dashed red;
+}
+
+.container{
+  width: 900px;
+  border-radius: 10px;
+  background-color: #282c34;
+  font-size: 20px;
+  font-family: serif;
+  color: #4bb6a7;
+}
+
+.header, .footer{
+  font-style: italic;
+  padding: 0;
+}
+
+.left{
+  float: left;
+  padding-left: 20px;
+}
+
+.center{
+  padding: 20%;
+}
+
+.right{
+  float: right;
+  padding-right: 20px;
+}
+
+.task_image{
+  border-radius: 15px;
+  margin: 20px;
+}
+
+.task_text{
+  border-radius: 20px;
+  height: 217px;
+  margin: 20px 0 20px 20px;
+}
+
+.task-container, .form-container{
+  text-align: left;
+}
+
+button {
+  margin: 8px;
+  border: 2px solid #cccccc;
+  border-radius: 2px;
+  background: #0066CC;
+  height: 24px;
+}
+
+#R, #Y, #X{
+  width: 140px;
+}
+
+form{
+  display: inline-block;
+  margin: 10px 40px;
+}
+
+.answer{
+  display: inline-block;
+  width:300px;
+  height: 250px;
+  border-radius: 10px;
+  background-color: #333333;
+  margin: 10px 40px;
+}
+
+.submit{
+  width: 165px;
+  background: #4bb6a7;
+  height: 30px;
+  border-radius: 10px;
+}
+
+.submit:hover{
+  background: #d19a62;
+}
+
+.submit:active{
+  background: #b7403e;
+}
+
+table.points{
+  border-collapse: collapse;
+}
+
+th, td{
+  padding: 5px;
+}
+
+img.zoom {
+  cursor: pointer;
+  height: 217px;
+  text-align: center;
+}
+img.zoom:hover {
+  width: 650px;
+  margin: 20px 0 0 0;
+}
+
+.input_X {
+ display: none;
+}

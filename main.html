@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="rus">
+<head>
+    <meta charset="utf-8">
+    <title>Лабораторная работа№1</title>
+
+    <style type="text/css">
+        div{
+            margin-bottom: 5px;
+        }
+
+        input:invalid {
+            border: 2px dashed red;
+        }
+
+        .container{
+            width: 900px;
+            border-radius: 10px;
+            background-color: #282c34;
+            font-size: 20px;
+            font-family: serif;
+            color: #4bb6a7;
+        }
+
+        .header{
+            font-style: italic;
+            padding: 0;
+        }
+
+        .left{
+            float: left;
+            padding-left: 20px;
+        }
+
+        .center{
+            padding: 20%;
+        }
+
+        .right{
+            float: right;
+            padding-right: 20px;
+        }
+
+        .task_image{
+            border-radius: 15px;
+            margin: 20px;
+        }
+
+        button {
+            margin: 8px;
+            border: 2px solid #cccccc;
+            border-radius: 2px;
+            background: #0066CC;
+            height: 24px;
+        }
+
+        #R, #Y, #X{
+            width: 140px;
+        }
+
+        form{
+            display: inline-block;
+            margin: 10px 40px;
+        }
+
+        .submit{
+            width: 165px;
+            background: #4bb6a7;
+            height: 30px;
+            border-radius: 10px;
+        }
+
+        .submit:hover{
+            background: #d19a62;
+        }
+
+        .submit:active{
+            background: #b7403e;
+        }
+
+        table.points{
+            border-collapse: collapse;
+        }
+
+        th, td{
+            padding: 5px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function validate(form){
+
+            let fail = true;
+            let message = "";
+            const X = form.X.value.replace(",", ".");
+            const Y = form.Y.value.replace(",", ".");
+            const R = form.R.value.replace(",", ".");
+            const hint = document.getElementById('hint');
+
+            hint.innerHTML = "";
+
+            if (Y < -3 || Y > 5 || isNaN(Y) || Y === "" || Y.length > 10){
+                fail = false;
+                message = "Некорректно задано значение Y \n";
+            }
+
+            if (R < 1 || R > 4 || isNaN(R) || R === "" || R.length > 10){
+                fail = false;
+                message += "Некорректно задано значение R \n";
+            }
+
+            if (X === "" || isNaN(X) || X === null || X > 5) {
+                fail = false;
+                message += "Не выбрано значение для X";
+            }
+
+            if (fail) {
+                makeFrame('result_frame');
+                createCanvas('canvas', X, Y, R);
+                return true;
+            } else {
+
+                hint.className = 'container';
+                hint.style.padding = '20px 0';
+                hint.innerHTML = message;
+                return false;
+            }
+        }
+
+        function makeFrame(id){
+            let iframe = document.getElementById(id);
+            iframe.style.display = "block";
+            frameFitting(id);
+            for (let i=0; i<iframe.length; i++) {
+                iframe[i].onclick = function() {
+                    clearInterval(timeout);
+                    timeout = setInterval("frameFitting(id)",100);
+                }
+            }
+        }
+
+        function frameFitting(id) {
+            document.getElementById(id).width = '100%';
+            document.getElementById(id).height = document.getElementById(id).contentWindow.
+                document.body.scrollHeight+35+'px';
+        }
+        
+        function buttonClick(id) {
+            let i;
+            for (i = -3; i <= 5; i++ ) {
+                if (i === id) {
+                    document.getElementById(i).checked = true;
+                } else {document.getElementById(i).checked = false;}
+            }
+
+            document.getElementById("X").value = document.getElementById(id).value;
+        }
+
+        function createCanvas(id, x, y, r){
+            var canvas = document.getElementById(id),
+                context = canvas.getContext("2d");
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            context.beginPath();
+            context.rect(20, 150, 130, 65);
+            context.closePath();
+            context.strokeStyle = "blue";
+            context.fillStyle = "blue";
+            context.fill();
+            context.stroke();
+
+            context.beginPath();
+            context.moveTo(150, 150);
+            context.arc(150, 150, 130, -Math.PI, -Math.PI/2, false);
+            context.closePath();
+            context.strokeStyle = "blue";
+            context.fillStyle = "blue";
+            context.fill();
+            context.stroke();
+
+            context.beginPath();
+            context.moveTo(150, 20);
+            context.lineTo(280, 150);
+            context.lineTo(150, 150);
+            context.lineTo(150, 20);
+            context.closePath();
+            context.strokeStyle = "blue";
+            context.fillStyle = "blue";
+            context.fill();
+            context.stroke();
+
+            context.beginPath();
+            context.font = "10px Verdana";
+            context.moveTo(150, 0); context.lineTo(150, 300);
+            context.moveTo(150, 0); context.lineTo(145, 15);
+            context.moveTo(150, 0); context.lineTo(155, 15);
+            context.fillText("Y", 160, 10);
+            context.moveTo(0, 150); context.lineTo(300, 150);
+            context.moveTo(300, 150); context.lineTo(285, 145);
+            context.moveTo(300, 150); context.lineTo(285, 155);
+            context.fillText("X", 290, 135);
+
+            context.moveTo(145, 20); context.lineTo(155, 20); context.fillText(r, 160, 20);
+            context.moveTo(145, 85); context.lineTo(155, 85); context.fillText((r / 2), 160, 78);
+            context.moveTo(145, 215); context.lineTo(155, 215); context.fillText(-(r / 2), 160, 215);
+            context.moveTo(145, 280); context.lineTo(155, 280); context.fillText(-r, 160, 280);
+
+            context.moveTo(20, 145); context.lineTo(20, 155); context.fillText(-r, 20, 170);
+            context.moveTo(85, 145); context.lineTo(85, 155); context.fillText(-(r / 2), 70, 170);
+            context.moveTo(215, 145); context.lineTo(215, 155); context.fillText((r / 2), 215, 170);
+            context.moveTo(280, 145); context.lineTo(280, 155); context.fillText(r, 280, 170);
+
+            context.closePath();
+            context.strokeStyle = "black";
+            context.fillStyle = "black";
+            context.stroke();
+
+            context.beginPath();
+            context.rect(Math.round(150 + ((x / r) * 130))-2, Math.round(150 - ((y / r) * 130))-2, 4, 4);
+            context.closePath();
+            context.strokeStyle = "red";
+            context.fillStyle = "red";
+            context.fill();
+            context.stroke();
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <div class="container header">
+        <span class="left">Группа P3212</span>
+        <span class="center">Земнухов Владимир</span>
+        <span class="right">Вариант 212024</span>
+    </div>
+
+    <div class="container task">
+        <img alt="задание" class="task_image" src="task.png" height=95% width=95%>
+    </div>
+
+    <div class="container form">
+        <form class="form" action="script.php" method="GET" onsubmit="return validate(this)" target="result_frame">
+
+            <table>
+                <tr>
+                    <td></td>
+                    <td><input type="checkbox" id="-3" name="X=-3" value="-3" onclick="buttonClick(-3)">
+                        <label for="-3">-3</label></td>
+                    <td><input type="checkbox" id="-2" name="X=-2" value="-2" onclick="buttonClick(-2)">
+                        <label for="-2">-2</label></td>
+                    <td><input type="checkbox" id="-1" name="X=-1" value="-1" onclick="buttonClick(-1)">
+                        <label for="-1">-1</label></td>
+                </tr>
+                <tr>
+                    <td> X = </td>
+                    <td><input type="checkbox" id="0" name="X=0" value="0" onclick="buttonClick(0)">
+                        <label for="0">0</label></td>
+                    <td><input type="checkbox" id="1" name="X=1" value="1" onclick="buttonClick(1)">
+                        <label for="1">1</label></td>
+                    <td><input type="checkbox" id="2" name="X=2" value="2" onclick="buttonClick(2)">
+                        <label for="2">2</label></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="checkbox" id="3" name="X=3" value="3" onclick="buttonClick(3)">
+                        <label for="3">3</label></td>
+                    <td><input type="checkbox" id="4" name="X=4" value="4" onclick="buttonClick(4)">
+                        <label for="4">4</label></td>
+                    <td><input type="checkbox" id="5" name="X=5" value="5" onclick="buttonClick(5)">
+                        <label for="5">5</label></td>
+                </tr>
+            </table>
+
+            <label for="X" hidden>6</label>
+            <input id="X" required type="text" name="X" class="input_X"><br>
+
+            <label for="Y"> Y = </label>
+            <input id="Y" required type="text" name="Y" placeholder="[-3 .. 5]" maxlength="10"><br>
+
+            <label for="R"> R = </label>
+            <input id="R" required type="text" name="R" placeholder="[1 .. 4]" maxlength="10"><br>
+
+            <br>
+
+            <input class="submit" type="submit" name="submit" value="ПРОВЕРИТЬ">
+        </form>
+
+        <canvas id="canvas" style="background-color:#ffffff; border-radius: 20px;"
+                width="300" height="300"></canvas>
+
+    </div>
+
+    <div class="backgroundBlock">
+        <div id="hint"></div>
+    </div>
+
+    <div >
+        <iframe name="result_frame" height="120" width="700" id="result_frame"
+                allowtransparency frameborder="no" scrolling="no" style="display:none"></iframe>
+    </div>
+
+</body>
+</html>
